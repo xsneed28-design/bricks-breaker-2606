@@ -38,32 +38,36 @@ void Game::Reset()
 
 	brick2.width = 10;
 	brick2.height = 2;
-	brick2.x_position = 5;
+	brick2.x_position = 17.5;
 	brick2.y_position = 5;
+	brick2.doubleThick = true;
 	brick2.color = ConsoleColor::DarkGreen;
 
 	bricks.push_back(brick2);
 
 	brick3.width = 10;
 	brick3.height = 2;
-	brick3.x_position = 10;
+	brick3.x_position = 35;
 	brick3.y_position = 5;
+	brick3.doubleThick = true;
 	brick3.color = ConsoleColor::DarkGreen;
 
 	bricks.push_back(brick3);
 
 	brick4.width = 10;
 	brick4.height = 2;
-	brick4.x_position = 15;
+	brick4.x_position = 52.5;
 	brick4.y_position = 5;
+	brick4.doubleThick = true;
 	brick4.color = ConsoleColor::DarkGreen;
 
 	bricks.push_back(brick4);
 
 	brick5.width = 10;
 	brick5.height = 2;
-	brick5.x_position = 20;
+	brick5.x_position = 70;
 	brick5.y_position = 5;
+	brick5.doubleThick = true;
 	brick5.color = ConsoleColor::DarkGreen;
 
 	bricks.push_back(brick5);
@@ -114,6 +118,10 @@ void Game::Render() const
 		bricks[i].Draw();
 	}
 	
+	if (bricks.size() == 0) {
+		Console::WordWrap(WINDOW_WIDTH / 3.2, WINDOW_HEIGHT / 2.1, 0, "You win! Press 'R' to play again.");
+	}
+	 
 
 	Console::Lock(false);
 }
@@ -128,14 +136,16 @@ void Game::CheckCollision()
 			ball.y_velocity *= -1;
 
 			// TODO #5 - If the ball hits the same brick 3 times (color == black), remove it from the vector
-			if (bricks[i].color = ConsoleColor(Black)) {
+			if (bricks[i].color == ConsoleColor(Black)) {
 				bricks.erase(bricks.begin() + i);
 			}
 		}
 	}
 
 	// TODO #6 - If no bricks remain, pause ball and display (render) victory text with R to reset
-
+	if (bricks.size() == 0) {
+		ball.moving = false;
+	}
 
 	if (paddle.Contains(ball.x_position + ball.x_velocity, ball.y_velocity + ball.y_position))
 	{
